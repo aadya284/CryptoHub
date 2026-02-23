@@ -1,4 +1,11 @@
-import React, { useEffect, useContext, useRef, lazy, Suspense, useMemo } from "react";
+import React, {
+  useEffect,
+  useContext,
+  useRef,
+  lazy,
+  Suspense,
+  useMemo,
+} from "react";
 import Lenis from "lenis";
 import Navbar from "@/components/Layout/Navbar";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -44,7 +51,9 @@ import Feedback from "./pages/Feedback";
 import TrendingCoins from "@/pages/TrendingCoins";
 import NewListings from "@/pages/NewListings";
 import TopGainers from "./pages/TopGainers";
-
+import TopLosers from "./pages/TopLosers";
+import ApiAccess from "./pages/ApiAccess";
+import AIBlogPage from "./pages/AIBlog/AIBlogPage";
 
 const App = () => {
   const lenisRef = useRef(null);
@@ -86,12 +95,12 @@ const App = () => {
       "/saved-insights",
       "/profile",
     ],
-    []
+    [],
   );
 
   const authRoutes = useMemo(
     () => ["/login", "/signup", "/forgot-password", "/verify-email"],
-    []
+    [],
   );
 
   const isDashboard = dashboardRoutes.includes(location.pathname);
@@ -146,7 +155,20 @@ const App = () => {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogDetail />} />
                 <Route path="/blog/article/:id" element={<BlogDetail />} />
-                <Route path="/ai-blog" element={<Suspense fallback={<div style={{ minHeight: '100vh', background: '#0a0a0a' }} />}><AIBlogPage /></Suspense>} />
+                <Route
+                  path="/ai-blog"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div
+                          style={{ minHeight: "100vh", background: "#0a0a0a" }}
+                        />
+                      }
+                    >
+                      <AIBlogPage />
+                    </Suspense>
+                  }
+                />
                 <Route path="/trending" element={<TrendingCoins />} />
                 <Route path="/new-listings" element={<NewListings />} />
                 <Route path="/top-losers" element={<TopLosers />} />
@@ -175,19 +197,10 @@ const App = () => {
                   }
                 >
                   <Route path="/dashboard" element={<DashboardContent />} />
-                  <Route
-                    path="/market-overview"
-                    element={<MarketOverview />}
-                  />
+                  <Route path="/market-overview" element={<MarketOverview />} />
                   <Route path="/leaderboard" element={<Leaderboard />} />
-                  <Route
-                    path="/change-password"
-                    element={<ChangePassword />}
-                  />
-                  <Route
-                    path="/saved-insights"
-                    element={<SavedInsights />}
-                  />
+                  <Route path="/change-password" element={<ChangePassword />} />
+                  <Route path="/saved-insights" element={<SavedInsights />} />
                   <Route path="/profile" element={<Profile />} />
                 </Route>
                 <Route path="/coin/:coinId" element={<CoinWrapper />} />
