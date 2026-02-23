@@ -20,7 +20,7 @@ const fetchTopLosers = async (currency) => {
   const pages = [1, 2, 3];
   const results = await Promise.all(
     pages.map(async (page) => {
-      const baseUrl = `https://api.coingecko.com/api/v3/coins/markets`;
+      const baseUrl = `/api/coingecko/coins/markets`;
       const params = new URLSearchParams({
         vs_currency: currency,
         order: "market_cap_desc",
@@ -38,22 +38,26 @@ const fetchTopLosers = async (currency) => {
 
       if (!response.ok) throw new Error(`API Error: ${response.status}`);
       return response.json();
-    })
+    }),
   );
 
   const allCoins = results.flat();
 
   // Filter coins with negative 24h change, remove duplicates
   const uniqueCoins = Array.from(
-    new Map(allCoins.map((coin) => [coin.id, coin])).values()
+    new Map(allCoins.map((coin) => [coin.id, coin])).values(),
   );
 
   // Sort by worst 24h price change ascending (biggest losers first)
   return uniqueCoins
-    .filter((coin) => coin.current_price > 0 && coin.price_change_percentage_24h !== null)
+    .filter(
+      (coin) =>
+        coin.current_price > 0 && coin.price_change_percentage_24h !== null,
+    )
     .sort(
       (a, b) =>
-        (a.price_change_percentage_24h || 0) - (b.price_change_percentage_24h || 0)
+        (a.price_change_percentage_24h || 0) -
+        (b.price_change_percentage_24h || 0),
     );
 };
 
@@ -105,7 +109,7 @@ const TopLosers = () => {
   const totalPages = Math.ceil(sortedCoins.length / itemsPerPage);
   const currentCoins = sortedCoins.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handlePageChange = (newPage) => {
@@ -124,7 +128,7 @@ const TopLosers = () => {
   };
 
   const totalNegative = losers.filter(
-    (c) => (c.price_change_percentage_24h || 0) < 0
+    (c) => (c.price_change_percentage_24h || 0) < 0,
   ).length;
 
   const avgLoss =
@@ -281,7 +285,9 @@ const TopLosers = () => {
                             <span className="tl-coin-symbol">
                               {coin.symbol.toUpperCase()}
                             </span>
-                            <span className="tl-coin-fullname">{coin.name}</span>
+                            <span className="tl-coin-fullname">
+                              {coin.name}
+                            </span>
                           </div>
                         </div>
                         <div className="tl-col-price">
@@ -344,7 +350,7 @@ const TopLosers = () => {
                           >
                             {num}
                           </button>
-                        )
+                        ),
                       )
                     : (() => {
                         const pages = [];

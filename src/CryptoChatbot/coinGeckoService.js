@@ -4,7 +4,7 @@
  * Rate limit: ~10-30 calls/min (plenty for a chatbot)
  */
 
-const BASE_URL = "https://api.coingecko.com/api/v3";
+const BASE_URL = "/api/coingecko";
 
 // Simple in-memory cache to avoid redundant API calls
 const cache = {};
@@ -47,11 +47,7 @@ export async function getGlobalData() {
 }
 
 // ─── Top Coins by Market Cap ──────────────────────────────────────
-export async function getTopCoins(
-  currency = "inr",
-  perPage = 50,
-  page = 1
-) {
+export async function getTopCoins(currency = "inr", perPage = 50, page = 1) {
   const url = `${BASE_URL}/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=false&price_change_percentage=1h,24h,7d`;
   return cachedFetch(url, `top_coins_${currency}_${perPage}_${page}`);
 }
@@ -94,7 +90,7 @@ export async function getGainersLosers(currency = "inr", count = 5) {
   const sorted = [...coins].sort(
     (a, b) =>
       (b.price_change_percentage_24h || 0) -
-      (a.price_change_percentage_24h || 0)
+      (a.price_change_percentage_24h || 0),
   );
   return {
     gainers: sorted.slice(0, count),
@@ -113,32 +109,60 @@ export async function compareCoins(coinId1, coinId2, currency = "inr") {
 // ─── Coin ID Resolution ──────────────────────────────────────────
 // Maps common names/symbols to CoinGecko IDs
 const COIN_ALIASES = {
-  btc: "bitcoin", bitcoin: "bitcoin",
-  eth: "ethereum", ether: "ethereum", ethereum: "ethereum",
-  sol: "solana", solana: "solana",
-  bnb: "binancecoin", binance: "binancecoin",
-  xrp: "ripple", ripple: "ripple",
-  ada: "cardano", cardano: "cardano",
-  doge: "dogecoin", dogecoin: "dogecoin",
-  dot: "polkadot", polkadot: "polkadot",
-  matic: "matic-network", polygon: "matic-network",
-  avax: "avalanche-2", avalanche: "avalanche-2",
-  link: "chainlink", chainlink: "chainlink",
-  shib: "shiba-inu", "shiba inu": "shiba-inu", shiba: "shiba-inu",
-  uni: "uniswap", uniswap: "uniswap",
-  ltc: "litecoin", litecoin: "litecoin",
-  atom: "cosmos", cosmos: "cosmos",
-  near: "near", "near protocol": "near",
-  xlm: "stellar", stellar: "stellar",
-  algo: "algorand", algorand: "algorand",
-  apt: "aptos", aptos: "aptos",
-  arb: "arbitrum", arbitrum: "arbitrum",
-  op: "optimism", optimism: "optimism",
-  sui: "sui", ton: "the-open-network", toncoin: "the-open-network",
-  usdt: "tether", tether: "tether",
+  btc: "bitcoin",
+  bitcoin: "bitcoin",
+  eth: "ethereum",
+  ether: "ethereum",
+  ethereum: "ethereum",
+  sol: "solana",
+  solana: "solana",
+  bnb: "binancecoin",
+  binance: "binancecoin",
+  xrp: "ripple",
+  ripple: "ripple",
+  ada: "cardano",
+  cardano: "cardano",
+  doge: "dogecoin",
+  dogecoin: "dogecoin",
+  dot: "polkadot",
+  polkadot: "polkadot",
+  matic: "matic-network",
+  polygon: "matic-network",
+  avax: "avalanche-2",
+  avalanche: "avalanche-2",
+  link: "chainlink",
+  chainlink: "chainlink",
+  shib: "shiba-inu",
+  "shiba inu": "shiba-inu",
+  shiba: "shiba-inu",
+  uni: "uniswap",
+  uniswap: "uniswap",
+  ltc: "litecoin",
+  litecoin: "litecoin",
+  atom: "cosmos",
+  cosmos: "cosmos",
+  near: "near",
+  "near protocol": "near",
+  xlm: "stellar",
+  stellar: "stellar",
+  algo: "algorand",
+  algorand: "algorand",
+  apt: "aptos",
+  aptos: "aptos",
+  arb: "arbitrum",
+  arbitrum: "arbitrum",
+  op: "optimism",
+  optimism: "optimism",
+  sui: "sui",
+  ton: "the-open-network",
+  toncoin: "the-open-network",
+  usdt: "tether",
+  tether: "tether",
   usdc: "usd-coin",
-  pepe: "pepe", wif: "dogwifhat",
-  trx: "tron", tron: "tron",
+  pepe: "pepe",
+  wif: "dogwifhat",
+  trx: "tron",
+  tron: "tron",
 };
 
 export function resolveCoinId(input) {
@@ -154,7 +178,8 @@ export function formatINR(num) {
   if (num >= 1e9) return `₹${(num / 1e9).toFixed(2)}B`;
   if (num >= 1e7) return `₹${(num / 1e7).toFixed(2)}Cr`;
   if (num >= 1e5) return `₹${(num / 1e5).toFixed(2)}L`;
-  if (num >= 1) return `₹${num.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+  if (num >= 1)
+    return `₹${num.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
   return `₹${num.toFixed(6)}`;
 }
 
@@ -163,7 +188,8 @@ export function formatUSD(num) {
   if (num >= 1e12) return `$${(num / 1e12).toFixed(2)}T`;
   if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
   if (num >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
-  if (num >= 1) return `$${num.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+  if (num >= 1)
+    return `$${num.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
   return `$${num.toFixed(6)}`;
 }
 

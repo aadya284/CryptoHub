@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './Footer.css';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import "./Footer.css";
+import { Link } from "react-router-dom";
 import {
   FaFacebook,
   FaInstagram,
@@ -12,54 +12,51 @@ import {
   FaCcPaypal,
   FaApplePay,
   FaGooglePay,
-} from 'react-icons/fa';
-import { FiSend } from 'react-icons/fi';
+} from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
 
 const Footer = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
 
   const currentYear = new Date().getFullYear();
 
-  const isValidEmail = (value) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
-      setStatus('Please enter a valid email address');
+      setStatus("Please enter a valid email address");
       return;
     }
 
     setIsSubmitting(true);
-    setStatus('Subscribing...');
+    setStatus("Subscribing...");
 
     // Simulated API call
     setTimeout(() => {
-      setStatus('Successfully subscribed to CryptoHub Insights!');
-      setEmail('');
+      setStatus("Successfully subscribed to CryptoHub Insights!");
+      setEmail("");
       setIsSubmitting(false);
-      setTimeout(() => setStatus(''), 3000);
+      setTimeout(() => setStatus(""), 3000);
     }, 1500);
   };
 
   return (
     <footer className="footer-container">
       <div className="footer-content">
-
         {/* Main Grid */}
         <div className="footer-main">
-
           {/* Brand */}
           <div className="footer-brand">
             <h2 className="footer-logo">
               Crypto<span>Hub</span>.
             </h2>
             <p>
-              Real-time crypto tracking, advanced analytics,
-              market insights & portfolio tools.
+              Real-time crypto tracking, advanced analytics, market insights &
+              portfolio tools.
             </p>
 
             <div className="payment-methods">
@@ -75,10 +72,18 @@ const Footer = () => {
           <div className="footer-links">
             <h4>Markets</h4>
             <ul>
-              <li><Link to="/trending">Trending Coins</Link></li>
-              <li><Link to="/gainers">Top Gainers</Link></li>
-              <li><Link to="/losers">Top Losers</Link></li>
-              <li><Link to="/new-listings">New Listings</Link></li>
+              <li>
+                <Link to="/trending">Trending Coins</Link>
+              </li>
+              <li>
+                <Link to="/gainers">Top Gainers</Link>
+              </li>
+              <li>
+                <Link to="/top-losers">Top Losers</Link>
+              </li>
+              <li>
+                <Link to="/new-listings">New Listings</Link>
+              </li>
             </ul>
           </div>
 
@@ -86,11 +91,21 @@ const Footer = () => {
           <div className="footer-links">
             <h4>Product</h4>
             <ul>
-              <li><Link to="/features">Features</Link></li>
-              <li><Link to="/pricing">Pricing</Link></li>
-              <li><Link to="/portfolio">Portfolio</Link></li>
-              <li><Link to="/api-access">API Access</Link></li>
-              <li><Link to="/feedback">Feedback</Link></li>
+              <li>
+                <Link to="/features">Features</Link>
+              </li>
+              <li>
+                <Link to="/pricing">Pricing</Link>
+              </li>
+              <li>
+                <Link to="/portfolio">Portfolio</Link>
+              </li>
+              <li>
+                <Link to="/api-access">API Access</Link>
+              </li>
+              <li>
+                <Link to="/feedback">Feedback</Link>
+              </li>
             </ul>
           </div>
 
@@ -114,12 +129,14 @@ const Footer = () => {
                 disabled={isSubmitting || !email}
                 aria-label="Subscribe"
               >
-                {isSubmitting ? '...' : <FiSend />}
+                {isSubmitting ? "..." : <FiSend />}
               </button>
             </form>
 
             {status && (
-              <p className={`status-message ${status.includes('Success') ? 'success' : 'error'}`}>
+              <p
+                className={`status-message ${status.includes("Success") ? "success" : "error"}`}
+              >
                 {status}
               </p>
             )}
@@ -128,13 +145,47 @@ const Footer = () => {
 
         {/* Bottom */}
         <div className="footer-bottom-section">
-
           <div className="social-links">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><FaTwitter /></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebook /></a>
-            <a href="https://github.com/KaranUnique/CryptoHub" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub /></a>
-            <a href="https://discord.gg" target="_blank" rel="noopener noreferrer" aria-label="Discord"><FaDiscord /></a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <FaFacebook />
+            </a>
+            <a
+              href="https://github.com/KaranUnique/CryptoHub"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+            >
+              <FaGithub />
+            </a>
+            <a
+              href="https://discord.gg"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Discord"
+            >
+              <FaDiscord />
+            </a>
           </div>
 
           <div className="footer-bottom">
@@ -145,7 +196,6 @@ const Footer = () => {
             </p>
             <p>© {currentYear} CryptoHub. All rights reserved.</p>
           </div>
-
         </div>
       </div>
     </footer>
